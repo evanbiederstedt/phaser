@@ -202,8 +202,8 @@ def variant_feature_reads(row, feature):
 			if len(xvars) == 1:
 				# if haplotype only has one variant then there are no read names since they are not needed
 				# generate some fake read ids
-				hap_a_reads += map(str,range(0,int(row['aCount'])))
-				hap_b_reads += map(str,range(0,int(row['bCount'])))
+				hap_a_reads += map(str, list(range(0,int(row['aCount']))))
+				hap_b_reads += map(str, list(range(0,int(row['bCount']))))
 			else:
 				hap_a_reads += str(row['aReads']).split(";")[xvar_index].split(",")
 				hap_b_reads += str(row['bReads']).split(";")[xvar_index].split(",")

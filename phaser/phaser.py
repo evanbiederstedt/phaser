@@ -600,7 +600,7 @@ def main():
 	block_haplotypes = []
 	phased_vars = 0
 
-	pool_output = parallelize(build_haplotypes, dict_variant_overlap.values())
+	pool_output = parallelize(build_haplotypes, list(dict_variant_overlap.values()))
 
 	for chr_haplotypes in pool_output:
 		for haplotype_block in chr_haplotypes:
@@ -897,7 +897,7 @@ def main():
 				hap_var_reads = [[],[]]
 
 				out_block_gw_phase = "0/1"
-				if corrected_phases[0][0] == 0
+				if corrected_phases[0][0] == 0:
 					# haplotype A = GW phase 0
 					out_block_gw_phase = "0|1"
 				elif corrected_phases[0][0] == 1:
@@ -1290,7 +1290,7 @@ def phase_block(input):
 	while remove_number <= len(removable_connections):
 		# prune connections
 		# add first no connection removal
-		to_remove = list(itertools.combinations(range(len(removable_connections)), remove_number))
+		to_remove = list(itertools.combinations(list(range(len(removable_connections))), remove_number))
 		if len(to_remove) > args.max_prune:
 			print_warning("maximum number of pruning iterations reached for %s"%(variants))
 			break
@@ -1325,7 +1325,7 @@ def phase_block(input):
 		while len(remaining_hap_pool) > 0:
 			# this will construct many iterations of the same haplotype need to filter it out
 			# start the process with a variant pair
-			seed_var = remaining_hap_pool.keys()[0]
+			seed_var = list(remaining_hap_pool.keys())[0]
 			seed = set([seed_var] + list(remaining_hap_pool[seed_var]))
 			del remaining_hap_pool[seed_var]
 			set_remaining_hap_pool.remove(seed_var)
@@ -1678,7 +1678,7 @@ def build_haplotypes(input):
 	while len(remaining_hap_pool) > 0:
 		# this will construct many iterations of the same haplotype need to filter it out
 		# start the process with a variant pair
-		seed_var = remaining_hap_pool.keys()[0]
+		seed_var = list(remaining_hap_pool.keys())[0]
 		seed = set([seed_var] + list(remaining_hap_pool[seed_var]))
 		del remaining_hap_pool[seed_var]
 		set_remaining_hap_pool.remove(seed_var)
@@ -2017,7 +2017,7 @@ def resolve_phase(variants, allele_connections, clean_connections = False):
 
 	remaining_hap_pool = copy.deepcopy(allele_connections)
 	set_remaining_hap_pool = set(remaining_hap_pool.keys())
-	seed_var = remaining_hap_pool.keys()[0]
+	seed_var = list(remaining_hap_pool.keys())[0]
 	seed = set([seed_var] + list(remaining_hap_pool[seed_var]))
 	del remaining_hap_pool[seed_var]
 	set_remaining_hap_pool.remove(seed_var)
